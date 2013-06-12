@@ -3,7 +3,7 @@
 ##
 ## Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
 ## Copyright (C) 2012 Michael Ossmann <mike@ossmann.com>
-## Copyright (C) 2012/2013 Benjamin Vernoux <titanmkd@gmail.com>
+## Copyright (C) 2012 Benjamin Vernoux <titanmkd@gmail.com>
 ##
 ## This library is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU Lesser General Public License as published by
@@ -19,24 +19,29 @@
 ## along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-LIBNAME		= libopencm3_lpc43xx_m0
+LIBNAME		= libopencm3_lpc43xx
 
 PREFIX		?= arm-none-eabi
 #PREFIX		?= arm-elf
 CC		= $(PREFIX)-gcc
 AR		= $(PREFIX)-ar
-CFLAGS		= -O2 -g3 -Wall -Wextra -I../../include -fno-common \
-		  -mcpu=cortex-m0 -mthumb -Wstrict-prototypes \
-		  -ffunction-sections -fdata-sections -MD
+CFLAGS		= -O2 -g3 \
+		  -Wall -Wextra -Wimplicit-function-declaration \
+		  -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes \
+		  -Wundef -Wshadow \
+		  -I../../../include -fno-common \
+		  -mcpu=cortex-m4 -mthumb -Wstrict-prototypes \
+		  -ffunction-sections -fdata-sections -MD \
+		  -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DLPC43XX
 # ARFLAGS	= rcsv
 ARFLAGS		= rcs
 
 # LPC43xx common files for M4 / M0
 OBJ_LPC43XX     = gpio.o scu.o i2c.o ssp.o uart.o
 
-#LPC43xx M0 specific file + Generic LPC43xx M4/M0 files
-OBJS		= $(OBJ_LPC43XX)
+#LPC43xx M4 specific file + Generic LPC43xx M4/M0 files
+OBJS		= $(OBJ_LPC43XX) ipc.o
 
-VPATH += ../cm3:../lpc43xx
+VPATH += ../:../../cm3
 
-include ../Makefile.include
+include ../../Makefile.include

@@ -19,6 +19,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <libopencm3/cm3/assert.h>
 #include <libopencm3/stm32/f2/rcc.h>
 #include <libopencm3/stm32/f2/flash.h>
 
@@ -36,7 +37,7 @@ const clock_scale_t hse_8mhz_3v3[CLOCK_3V3_END] =
 		.hpre = RCC_CFGR_HPRE_DIV_NONE,
 		.ppre1 = RCC_CFGR_PPRE_DIV_4,
 		.ppre2 = RCC_CFGR_PPRE_DIV_2,
-		.flash_config = FLASH_ICE | FLASH_DCE | FLASH_LATENCY_3WS,
+		.flash_config = FLASH_ACR_ICE | FLASH_ACR_DCE | FLASH_ACR_LATENCY_3WS,
 		.apb1_frequency = 30000000,
 		.apb2_frequency = 60000000,
 	},
@@ -125,8 +126,7 @@ int rcc_osc_ready_int_flag(osc_t osc)
 		break;
 	}
 
-	/* Shouldn't be reached. */
-	return -1;
+	cm3_assert_not_reached();
 }
 
 void rcc_css_int_clear(void)

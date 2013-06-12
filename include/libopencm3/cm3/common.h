@@ -32,6 +32,29 @@ typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
 
+/* This must be placed around external function declaration for C++
+ * support. */
+#ifdef __cplusplus
+# define BEGIN_DECLS extern "C" {
+# define END_DECLS }
+#else
+# define BEGIN_DECLS
+# define END_DECLS
+#endif
+
+/* Full-featured deprecation attribute with fallback for older compilers. */
+
+#ifdef __GNUC__
+#	if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 4)
+#		define LIBOPENCM3_DEPRECATED(x) __attribute__ ((deprecated (x)))
+#	else
+#		define LIBOPENCM3_DEPRECATED(x) __attribute__ ((deprecated))
+#	endif
+#else
+#	define LIBOPENCM3_DEPRECATED(x)
+#endif
+
+
 /* Generic memory-mapped I/O accessor functions */
 #define MMIO8(addr)		(*(volatile u8 *)(addr))
 #define MMIO16(addr)		(*(volatile u16 *)(addr))
@@ -71,21 +94,5 @@ typedef uint64_t u64;
 #define BIT29 (1<<29)
 #define BIT30 (1<<30)
 #define BIT31 (1<<31)
-
-/* Main page for the doxygen-generated documentation: */
-
-/**
- * @mainpage libopencm3 Developer Documentation
- *
- * The libopencm3 project (previously known as libopenstm32) aims to create
- * a free/libre/open-source (GPL v3, or later) firmware library for various
- * ARM Cortex-M3 microcontrollers, including ST STM32, Toshiba TX03,
- * Atmel SAM3U, NXP LPC1000 and others.
- *
- * @par ""
- *
- * See the <a href="http://www.libopencm3.org">libopencm3 wiki</a> for
- * more information.
- */
 
 #endif

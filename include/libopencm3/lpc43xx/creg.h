@@ -1,3 +1,17 @@
+/** @defgroup creg_defines Configuration Registers Defines
+
+@brief <b>Defined Constants and Types for the LPC43xx Configuration Registers</b>
+
+@ingroup LPC43xx_defines
+
+@version 1.0.0
+
+@author @htmlonly &copy; @endhtmlonly 2012 Michael Ossmann <mike@ossmann.com>
+
+@date 10 March 2013
+
+LGPL License Terms @ref lgpl_license
+ */
 /*
  * This file is part of the libopencm3 project.
  *
@@ -19,6 +33,8 @@
 
 #ifndef LPC43XX_CREG_H
 #define LPC43XX_CREG_H
+
+/**@{*/
 
 #include <libopencm3/cm3/common.h>
 #include <libopencm3/lpc43xx/memorymap.h>
@@ -327,5 +343,7 @@
 #define CREG_USB1FLADJ_FLTV_SHIFT (0)
 #define CREG_USB1FLADJ_FLTV_MASK (0x3f << CREG_USB1FLADJ_FLTV_SHIFT)
 #define CREG_USB1FLADJ_FLTV(x) ((x) << CREG_USB1FLADJ_FLTV_SHIFT)
+
+/**@}*/
 
 #endif

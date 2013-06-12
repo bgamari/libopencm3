@@ -1,3 +1,22 @@
+/** @defgroup usb_type_defines USB Standard Structure Definitions
+
+@brief <b>Defined Constants and Types for the USB Standard Structure  Definitions</b>
+
+@ingroup USB_defines
+
+@version 1.0.0
+
+@author @htmlonly &copy; @endhtmlonly 2010 Gareth McMullin <gareth@blacksphere.co.nz>
+
+@date 10 March 2013
+
+A set of structure definitions for the USB control structures
+defined in chapter 9 of the "Univeral Serial Bus Specification Revision 2.0"
+Available from the USB Implementers Forum - http://www.usb.org/
+
+LGPL License Terms @ref lgpl_license
+*/
+
 /*
  * This file is part of the libopencm3 project.
  *
@@ -16,6 +35,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**@{*/
 
 #ifndef __USBSTD_H
 #define __USBSTD_H
@@ -37,6 +58,9 @@ struct usb_setup_data {
 	u16 wIndex;
 	u16 wLength;
 } __attribute__((packed));
+
+/* Class Definition */
+#define USB_CLASS_VENDOR            		0xFF
 
 /* bmRequestType bit definitions */
 #define USB_REQ_TYPE_IN				0x80
@@ -220,4 +244,10 @@ struct usb_iface_assoc_descriptor {
 #define USB_DT_INTERFACE_ASSOCIATION_SIZE \
 				sizeof(struct usb_iface_assoc_descriptor)
 
+enum usb_language_id {
+	USB_LANGID_ENGLISH_US = 0x409,
+};
 #endif
+
+/**@}*/
+

@@ -4,7 +4,6 @@
  * Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
  * Copyright (C) 2012 Michael Ossmann <mike@ossmann.com>
  * Copyright (C) 2012 Benjamin Vernoux <titanmkd@gmail.com>
- * Copyright (C) 2012 Jared Boone <jared@sharebrained.com>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -46,13 +45,44 @@ SECTIONS
 		. = ALIGN(4);
 	} >rom
 
-	/* exception index - required due to libgcc.a issuing /0 exceptions */
-	__exidx_start = .;
-	.ARM.exidx : {
-		*(.ARM.exidx*)
-	} > rom
-	__exidx_end = .;
+	/* C++ Static constructors/destructors, also used for __attribute__
+	 * ((constructor)) and the likes */
+	.preinit_array : {
+		. = ALIGN(4);
+		__preinit_array_start = .;
+		KEEP (*(.preinit_array))
+		__preinit_array_end = .;
+	} >rom
+	.init_array : {
+		. = ALIGN(4);
+		__init_array_start = .;
+		KEEP (*(SORT(.init_array.*)))
+		KEEP (*(.init_array))
+		__init_array_end = .;
+	} >rom
+	.fini_array : {
+		. = ALIGN(4);
+		__fini_array_start = .;
+		KEEP (*(.fini_array))
+		KEEP (*(SORT(.fini_array.*)))
+		__fini_array_end = .;
+	} >rom
 
+	/*
+	 * Another section used by C++ stuff, appears when using newlib with
+	 * 64bit (long long) printf support
+	 */
+	.ARM.extab : {
+		*(.ARM.extab*)
+	} >rom
+	/* exception index - required due to libgcc.a issuing /0 exceptions */
+	.ARM.exidx : {
+		__exidx_start = .;
+		*(.ARM.exidx*)
+		__exidx_end = .;
+	} >rom
+
+	. = ALIGN(4);
 	_etext = .;
 	_etext_ram = (. - ORIGIN(rom)) + ORIGIN(ram_local1);
 	_etext_rom = (. - ORIGIN(rom)) + ORIGIN(rom_flash);
@@ -63,6 +93,7 @@ SECTIONS
 		. = ALIGN(4);
 		_edata = .;
 	} >ram_local2 AT >rom
+	_data_loadaddr = LOADADDR(.data);
 
 	_data_rom = LOADADDR (.data) + ORIGIN(rom_flash);
 	_edata_rom = _data_rom + SIZEOF (.data);
@@ -92,9 +123,10 @@ SECTIONS
 	 */
 	/DISCARD/ : { *(.ARM.exidx) }
 
+	. = ALIGN(4);
 	end = .;
 
 	/* Leave room above stack for IAP to run. */
-	__StackTop = ORIGIN(ram_local2) + LENGTH(ram_local2) - 32;
+	__StackTop = ORIGIN(ram) + LENGTH(ram) - 32;
 	PROVIDE(_stack = __StackTop);
 }

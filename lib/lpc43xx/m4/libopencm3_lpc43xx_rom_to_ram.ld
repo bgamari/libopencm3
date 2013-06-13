@@ -127,6 +127,6 @@ SECTIONS
 	end = .;
 
 	/* Leave room above stack for IAP to run. */
-	__StackTop = ORIGIN(ram) + LENGTH(ram) - 32;
+	__StackTop = ORIGIN(ram_local2) + LENGTH(ram_local2) - 32;
 	PROVIDE(_stack = __StackTop);
 }

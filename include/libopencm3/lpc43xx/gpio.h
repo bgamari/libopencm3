@@ -847,11 +847,13 @@ LGPL License Terms @ref lgpl_license
 #define GPIO6_NOT                       GPIO_NOT(GPIO6)
 #define GPIO7_NOT                       GPIO_NOT(GPIO7)
 
+/* TODO interrupts */
+
 BEGIN_DECLS
 
-void gpio_set(u32 gpioport, u32 gpios);
-void gpio_clear(u32 gpioport, u32 gpios);
-void gpio_toggle(u32 gpioport, u32 gpios);
+void gpio_set(uint32_t gpioport, uint32_t gpios);
+void gpio_clear(uint32_t gpioport, uint32_t gpios);
+void gpio_toggle(uint32_t gpioport, uint32_t gpios);
 
 END_DECLS
 

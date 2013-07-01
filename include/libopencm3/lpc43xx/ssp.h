@@ -198,6 +198,8 @@ uint16_t ssp_read(ssp_num_t ssp_num);
 
 void ssp_write(ssp_num_t ssp_num, uint16_t data);
 
+uint16_t ssp_transfer(ssp_num_t ssp_num, uint16_t data);
+
 END_DECLS
 
 /**@}*/

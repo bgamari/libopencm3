@@ -171,5 +171,12 @@ void ssp_write(ssp_num_t ssp_num, uint16_t data)
 	 */
 	ssp_wait_until_not_busy(ssp_num);
 }
+
+uint16_t ssp_transfer(ssp_num_t ssp_num, uint16_t data)
+{
+  ssp_write(ssp_num, data);
+  return ssp_read(ssp_num);
+}
+
 /**@}*/
 
